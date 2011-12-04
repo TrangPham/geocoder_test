@@ -146,6 +146,14 @@ class ActiveRecordTest < ActiveSupport::TestCase
     assert !venues.include?(venues(:forum))
   end
 
+  test "within_bounding_box finds correct objects if longitudes span 180th meridian" do
+    box = [39.0, -73.7, 41.0, -117.0]
+    venues = Venue.within_bounding_box(box)
+    assert venues.include?(venues(:nikon))
+    assert !venues.include?(venues(:beacon))
+    assert venues.include?(venues(:forum))
+  end
+
   test "within_bounding_box doesn't find any venues if params are empty" do
     assert Venue.within_bounding_box([]).empty?
   end
