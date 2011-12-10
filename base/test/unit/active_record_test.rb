@@ -138,8 +138,8 @@ class ActiveRecordTest < ActiveSupport::TestCase
 
   # --- distance_from ---
 
-  test "distance_from finds associations ordered by distance" do
-    assert_equal Color.joins(:venues).order(Venue.distance_from(venues(:riverside))), [colors(:yellow), colors(:green), colors(:black), colors(:red)]
+  test "distance_from_sql finds associations ordered by distance" do
+    assert_equal Color.joins(:venues).order(Venue.distance_from_sql(venues(:riverside))), [colors(:yellow), colors(:green), colors(:black), colors(:red)]
   end
 
   # --- within_bounding_box ---
