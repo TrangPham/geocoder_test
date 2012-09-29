@@ -10,8 +10,8 @@ class ActiveRecordTest < ActiveSupport::TestCase
   test "new result stored on cache miss" do
     cache_stores.each do |store|
       Geocoder::Configuration.cache = store
-      query = "4893 Clay St, San Francisco, CA"
-      url   = Geocoder.send(:lookup, query).send(:query_url, query, false)
+      query = Geocoder::Query.new("4893 Clay St, San Francisco, CA")
+      url   = query.lookup.send(:query_url, query)
       cache = Geocoder.cache
       cache.expire(url)
       assert_nil cache[url]
@@ -25,8 +25,8 @@ class ActiveRecordTest < ActiveSupport::TestCase
     Geocoder::Configuration.lookup = :geocoder_ca # fake result format
     cache_stores.each do |store|
       Geocoder::Configuration.cache = store
-      query = "4893 Clay St, San Francisco, CA"
-      url   = Geocoder.send(:lookup, query).send(:query_url, query, false)
+      query = Geocoder::Query.new("4893 Clay St, San Francisco, CA")
+      url   = query.lookup.send(:query_url, query)
       cache = Geocoder.cache
       # manually set weird cache content
       cache[url] = "test({'latt':'4.44','longt':'5.55'});"
